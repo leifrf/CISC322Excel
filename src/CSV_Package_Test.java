@@ -44,7 +44,7 @@ public class CSV_Package_Test {
 	CSVReader reader = new CSVReader(csvFileReader);
 	csvLines = reader.readAll();
 	reader.close();
-	
+
 	printStringList(csvLines);
 	
 	// Test writing a CSV file
@@ -71,7 +71,6 @@ public class CSV_Package_Test {
 	 */
 	public static void javacsv() throws Exception{
 		CsvReader products = new CsvReader(TEST_IN_FILE_PATH);
-
 		products.readHeaders();
 		while (products.readRecord())
 		{

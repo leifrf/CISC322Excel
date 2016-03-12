@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/Leif/Downloads/opencsv-3.7.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Leif/Downloads/javacsv2.1/javacsv.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Leif/Downloads/super-csv-distribution-2.4.0-bin/super-csv/super-csv-2.4.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leif/Downloads/editor/txtlib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

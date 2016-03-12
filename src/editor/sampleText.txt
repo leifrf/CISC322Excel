@@ -1,0 +1,4 @@
+This is a sample text file.
+It only has a few lines but this one has a lot of characters so it might need to wrap around in whatever window you're viewing it in.
+This is a third line.
+You should make sure you can add lines at the beginning and end.

@@ -189,6 +189,6 @@ public class TextType implements DocumentType {
     /**
      * The expected extensions for files the application can edit.
      */
-    private static String[] extensions = { "txt", "html" };
+    private static String[] extensions = { "csv" }; // Updated to allow only csv instead of html and txt
 
 } // end class TextType

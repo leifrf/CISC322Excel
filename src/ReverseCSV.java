@@ -1,70 +1,59 @@
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.csvreader.CsvReader;
-
-
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 
 public class ReverseCSV {
 
 	private static final String TEST_IN_FILE_PATH = "resources/test_in_file.csv";
 	private static final String TEST_OUT_FILE_PATH = "resources/test_out_file.csv";	
 	
-	/**
-	 * https://sourceforge.net/projects/javacsv/
-	 * 
-	 * Positive:
-	 * Full test suite available
-	 * JSON-like implementation
-	 * Many flags/adjustable parameters
-	 * Easy to write to files
-	 * 
-	 * Negative:
-	 * Updated 2014-12-10
-	 * Excess overhead for implementation
-	 * 
-	 * @throws Exception
-	 */
-	public static void javacsv() throws Exception{
-		CsvReader products = new CsvReader("");
 
-		products.readHeaders();
-		while (products.readRecord())
-		{
-			String name = products.get("name");
-			String age = products.get("age");
-			String sex = products.get("sex");
-
-			// perform program logic here
-			System.out.println(name + " : " + age + " : " + sex);
-		}
-
-		products.close();
+	// Need to adapt this to accept an input stream 
+	public static List<String[]> readCsv(String csvFile) throws IOException {
+		CSVReader reader = new CSVReader(new FileReader(csvFile));
+		List<String[]> allLines = reader.readAll();
+		reader.close();
+		return allLines;
 	}
 	
-
-	public static Object[][] readCsv(String csvFile) throws IOException {
-		CsvReader reader = new CsvReader(csvFile);
-		int columnCount = reader.getColumnCount();
-		// Logically equivalent to reader.getRowCount();
-		int rowCount = reader.getHeaders().length;
-		String[][] content = new String[rowCount][columnCount];
-		int index = 0;
-		while (reader.readRecord()) {
-			content[index] = reader.getValues();
-		}
-		for (String[] entry : content) {
-			for (String element : entry) {
-				System.out.println(element);
-			}
-		}
-		return null;
+	// need to adapt this to accept an output stream
+	public static void writeCsv(List<String[]> lines, String fileName) throws IOException {
+		CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+		writer.writeAll(lines);
+		writer.close();
+	}
+	
+	public static String[] reverseLine(String[] line) {
+		String[] reversedLine = new String[line.length];
+		int index = line.length - 1;
+		for (String entry : line)
+			reversedLine[index--] = entry;
+		return reversedLine;
+	}
+	
+	public static void reverseCsvFile(String sourceFile, String destinationFile) throws IOException {
+		List<String[]> lines = readCsv(sourceFile);
+		List<String[]> reversedLines = new ArrayList<String[]>();
+		for (String[] line : lines)
+			reversedLines.add(reverseLine(line));
+		writeCsv(reversedLines, destinationFile);
 	}
 	
 	public static void main(String[] argv) throws IOException {
-		System.out.println(argv.length);
+		String outMessage = "There are " + argv.length + " arguments.\n";
+		System.out.println(outMessage);
 		for (String arg : argv) {
 			System.out.println(arg);
 		}
-		readCsv(argv[0]);
+
+		String sourceFile = argv[0];
+		String destinationFile = argv[1];
+		
+		reverseCsvFile(sourceFile, destinationFile);
 	}
 }

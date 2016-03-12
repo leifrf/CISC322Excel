@@ -1,5 +1,6 @@
 package excel;
 import java.awt.Container;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -9,6 +10,9 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableColumn;
 
 public class TableDisplay {
 
@@ -25,7 +29,18 @@ public class TableDisplay {
 		// TableModel dataModel = dummyTable.new DataTable(csvData);
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
+		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollpane = new JScrollPane(table);
+		
+		// Ray's change starts here
+		TableColumnModel columnModel = table.getColumnModel();
+		TableColumn column;
+		int columnCount = columnModel.getColumnCount();
+		for (int i = 0; i < columnCount; i++) {
+			column = columnModel.getColumn(i);
+			column.setPreferredWidth(100);
+		}
+		System.out.println(columnCount);
 		
 		Container content = frame.getContentPane();
 		content.add(scrollpane);

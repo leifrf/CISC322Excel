@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/Leif/workspace/CISC322Excel/resources/jars/javacsv.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Leif/workspace/CISC322Excel/resources/jars/opencsv-3.7.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Leif/workspace/CISC322Excel/resources/jars/super-csv-2.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Leif/workspace/CISC322Excel/resources/jars/txtlib.jar"/>
+	<classpathentry kind="lib" path="resources/jars/txtlib.jar"/>
+	<classpathentry kind="lib" path="resources/jars/super-csv-2.4.0.jar"/>
+	<classpathentry kind="lib" path="resources/jars/opencsv-3.7.jar"/>
+	<classpathentry kind="lib" path="resources/jars/javacsv.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package excel;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
@@ -32,15 +33,21 @@ public class TableDisplay {
 		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollpane = new JScrollPane(table);
 		
-		// Ray's change starts here
-		TableColumnModel columnModel = table.getColumnModel();
-		TableColumn column;
-		int columnCount = columnModel.getColumnCount();
-		for (int i = 0; i < columnCount; i++) {
-			column = columnModel.getColumn(i);
-			column.setPreferredWidth(100);
-		}
-		System.out.println(columnCount);
+		// Add listener to call ColumnInfo
+		// Double click the header to show
+		table.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int col = table.columnAtPoint(e.getPoint());
+				
+				System.out.println("Selected column " + col);
+				if (e.getClickCount() == 2) {
+					System.err.println("We got here");
+					new ColumnInfo(table, frame, col);
+				}
+			}
+		});
+		
 		
 		Container content = frame.getContentPane();
 		content.add(scrollpane);
@@ -92,19 +99,16 @@ public class TableDisplay {
 			return arrayData;
 		}
 		
-		@Override
 		public int getColumnCount() {
 			return columnCount;
 		}
 
-		@Override
 		public int getRowCount() {
 			return rowCount;
 		}
-
-		@Override
+		
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			System.out.printf("Looking for (%d %d)\n", rowIndex, columnIndex);
+//			System.out.printf("Looking for (%d %d)\n", rowIndex, columnIndex);
 			return entries[rowIndex][columnIndex];
 		}
 	}

@@ -94,13 +94,12 @@ public class TableDisplay {
 		 * Move a selected row (src) to a destination row (dest).
 		 * Percolates other rows up or down, depending on movement.
 		 * 
-		 * @param 	src - the source row
-		 * @param 	dest - the destination row
-		 * @return 	boolean - true if move was successful;
-		 * 					  false otherwise
+		 * @param 	src  	the source row
+		 * @param 	dest 	the destination row
+		 * @return 	boolean	true if move was successful;
+		 * 					false otherwise
 		 */
-		public boolean moveOneRow(int src, int dest) {
-			
+		public boolean moveOneRow(int src, int dest) {			
 			// make sure that src and dest rows are valid
 			if (src < 0 || dest < 0 || src >= rowCount || dest >= rowCount) {
 				return false;

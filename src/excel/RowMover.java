@@ -35,8 +35,9 @@ public class RowMover extends MouseAdapter {
     private JTable table; 
     
     /**
-     * Constructor for the RowMover object
-     * @param: table - a JTable to apply the mouse listener to
+     * Constructor for the RowMover object.
+     * 
+     * @param table	 a JTable to apply the mouse listener to
      */
     public RowMover(JTable table) {
     	this.table = table;
@@ -45,12 +46,12 @@ public class RowMover extends MouseAdapter {
     /**
      * mousePressed
      * Programs action when right mouse button is pressed; get the source row.
-     * @param: e - a MouseEvent, in this case a right click
-     * @return: void
+     * 
+     * @param	 e a MouseEvent, in this case a right click
+     * @return	 void
      */
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
       // select and highlight the row to move when the right mouse button is pressed
         JTable jtable = (JTable) e.getSource();
         srcRow = jtable.getSelectedRow();
@@ -63,11 +64,12 @@ public class RowMover extends MouseAdapter {
      * Programs action when right mouse button is released. 
      * Find the destination row (mouse release) and invoke moveOneRow to 
      * move the source row to the destination row.
-     * @param: e - MouseEvent, in this case the release of a right click
-     * @return: void
+     * 
+     * @param e	 MouseEvent, in this case the release of a right click
+     * @return	 void
      */
     @Override
-    public void mouseReleased(MouseEvent e){     
+    public void mouseReleased(MouseEvent e) {     
     	// find the row that the mouse is over when the right button is released so that the selected row will be dropped
     	Point point = e.getPoint();
       	JTable jtable = (JTable) e.getSource(); // the viewer - sees part of table model

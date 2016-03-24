@@ -52,17 +52,13 @@ public class TableDisplay {
 		private final int columnCount;
 		
 		private final Object[][] entries;
-
-		
-	//	protected Vector dataVector;
 		
 		public DataTable(int rowCount, int columnCount) {
 			super();
 			this.entries = new Object[rowCount][columnCount];
 			this.rowCount = rowCount;
 			this.columnCount = columnCount;
-			super.addTableModelListener(new DataTableListener());
-			
+			super.addTableModelListener(new DataTableListener());			
 		}
 		
 		public DataTable(List<String[]> csvData) {
@@ -70,8 +66,7 @@ public class TableDisplay {
 			this.entries = convertData(csvData);
 			this.rowCount = this.entries.length;
 			this.columnCount = this.rowCount > 0 ? this.entries[0].length : 0;
-			super.addTableModelListener(new DataTableListener());
-			
+			super.addTableModelListener(new DataTableListener());			
 		}
 		
 		public Object[][] convertData(List<String[]> listData) {
@@ -82,16 +77,28 @@ public class TableDisplay {
 				if (row.length > maxColumn)
 					maxColumn = row.length;
 			}
+			
 			Object[][] arrayData = new Object[maxRow][maxColumn];
 			
 			for (int row = 0; row < maxRow; row++){
 				for (int column = 0; column < maxColumn; column++) {
 					arrayData[row][column] = listData.get(row)[column];
 				}
-			}			
+			}
+			
 			return arrayData;
 		}
 		
+		/**
+		 * moveOneRow
+		 * Move a selected row (src) to a destination row (dest).
+		 * Percolates other rows up or down, depending on movement.
+		 * 
+		 * @param 	src - the source row
+		 * @param 	dest - the destination row
+		 * @return 	boolean - true if move was successful;
+		 * 					  false otherwise
+		 */
 		public boolean moveOneRow(int src, int dest) {
 			
 			// make sure that src and dest rows are valid
@@ -107,7 +114,8 @@ public class TableDisplay {
 				for (int row = src; row > dest; row--) { // at the place where want to put the src back in
 					entries[row] = entries[row - 1]; // move rows down
 				}
-				entries[dest] = tmp_src;
+				
+				entries[dest] = tmp_src; // move source row to destination row
 				this.fireTableRowsUpdated(0, rowCount); // update table
 				return true;
 			}
@@ -118,8 +126,9 @@ public class TableDisplay {
 				for (int row = src; row < dest; row ++) {
 					entries[row] = entries [row + 1]; // move rows up
 				}
-				entries[dest] = tmp_src;
-				this.fireTableRowsUpdated(0, rowCount);
+				
+				entries[dest] = tmp_src; // move source row to destination row
+				this.fireTableRowsUpdated(0, rowCount); // update table
 				return true;
 			}
 			
@@ -142,15 +151,14 @@ public class TableDisplay {
 			System.out.printf("Looking for (%d %d)\n", rowIndex, columnIndex);
 			return entries[rowIndex][columnIndex];
 		}
-	}
+	} // DataTable
 	
 	private class DataTableListener implements TableModelListener {
 		
 		@Override
 		public void tableChanged(TableModelEvent arg0) {
 			System.out.printf("Table change detected in DataTableListener\n");
-		}	
-		
+		}			
 	}
 
 } // TableDisplay

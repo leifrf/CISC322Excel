@@ -30,6 +30,7 @@ public class TableDisplay {
 		// TableModel dataModel = dummyTable.new DataTable(csvData);
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
+		// Switch on sort functionality (JTable built-in method)
 		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollpane = new JScrollPane(table);
 		

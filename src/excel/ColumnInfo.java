@@ -1,5 +1,7 @@
 package excel;
 
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,9 +25,10 @@ public class ColumnInfo {
 	JButton button;
 	JOptionPane dialog;
 	Object[][] entries;
-	double[] colEntries;
+	ArrayList<Double> colEntries;
 	double min, max, mean, total;
 	boolean allNumeric = true;
+	boolean allBlank = true;
 	
 	/**
      * Constructor for the ColumnInfo object.
@@ -36,23 +39,25 @@ public class ColumnInfo {
      */
 	public ColumnInfo(JTable table, JFrame frame, int col) {
 		entries = getTableData(table);
-		colEntries = new double[entries.length];
-		for (int i = 0; i < colEntries.length; i++) {
+		colEntries = new ArrayList<Double>();
+		for (int i = 0; i < entries.length; i++) {
 			try {
-			colEntries[i] = Double.parseDouble((String)entries[i][col]);
+			colEntries.add(Double.parseDouble((String)entries[i][col]));
+			allBlank = false;
 			} catch (NumberFormatException e) {
 				allNumeric = false;
+				if (((String)entries[i][col]).equals(" ")) { allNumeric = true; }
 			}
 		}
-		if (allNumeric) {
+		if (allNumeric && !allBlank) {
 			min = Integer.MAX_VALUE;
 			max = Integer.MIN_VALUE;
-			for (int i = 0; i < colEntries.length; i++) {
-				if (colEntries[i] < min) { min = colEntries[i]; }
-				if (colEntries[i] > max) { max = colEntries[i]; }
-				total += (double)colEntries[i];
+			for (int i = 0; i < colEntries.size(); i++) {
+				if (colEntries.get(i) < min) { min = colEntries.get(i); }
+				if (colEntries.get(i) > max) { max = colEntries.get(i); }
+				total += (double)colEntries.get(i);
 			}
-			mean = total / colEntries.length;
+			mean = total / colEntries.size();
 			String display = String.format("Min:%.2f, Max:%.2f, Mean:%.2f", min,max,mean);
 			JOptionPane.showMessageDialog(frame, display);
 		}

@@ -1,5 +1,7 @@
 package excel;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -10,8 +12,23 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableColumn;
+
+/**
+ * TableDisplay Class displays the JTable
+ * Contains the main method for our project
+ * 
+ * @author Leif Raptis Firth
+ *
+ */
 public class TableDisplay {
 
+	/**
+	 * Main method: displays the table
+	 * @param argv The csv file we want to show
+	 * @throws Exception If there is no csv file provided
+	 */
 	public static void main(String argv[]) throws Exception {
 		JFrame frame = new JFrame("CISC 322 Project Skeleton");
 		
@@ -25,7 +42,26 @@ public class TableDisplay {
 		// TableModel dataModel = dummyTable.new DataTable(csvData);
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
+		// Switch on sort functionality (JTable built-in method)
+		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollpane = new JScrollPane(table);
+		
+		// Add listener to call ColumnInfo
+		// Double click the header to show
+		table.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int col = table.columnAtPoint(e.getPoint());
+				
+				System.out.println("Selected column " + col);
+
+				if (e.getClickCount() == 2) {
+					System.out.printf("Double clicked column %d header!\n", col);
+					new ColumnInfo(table, frame, col);
+				}
+			}
+		});
+		
 		
 		Container content = frame.getContentPane();
 		content.add(scrollpane);
@@ -36,6 +72,7 @@ public class TableDisplay {
 
 	} // main
 	
+	// For converting the csv file into readable data objects
 	private class DataTable extends AbstractTableModel {
 		
 		private final int rowCount;
@@ -86,14 +123,14 @@ public class TableDisplay {
 		public int getRowCount() {
 			return rowCount;
 		}
-
+		
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			System.out.printf("Looking for (%d %d)\n", rowIndex, columnIndex);
 			return entries[rowIndex][columnIndex];
 		}
 	}
 	
+	// For detecting if the user has changed DataTable
 	private class DataTableListener implements TableModelListener {
 
 		@Override

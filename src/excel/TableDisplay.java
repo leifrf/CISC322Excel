@@ -17,8 +17,20 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+/**
+ * TableDisplay Class displays the JTable
+ * Contains the main method for our project
+ * 
+ * @author Leif Raptis Firth
+ *
+ */
 public class TableDisplay {
 
+	/**
+	 * Main method: displays the table
+	 * @param argv The csv file we want to show
+	 * @throws Exception If there is no csv file provided
+	 */
 	public static void main(String argv[]) throws Exception {
 		JFrame frame = new JFrame("CISC 322 Project Skeleton");
 		
@@ -32,7 +44,25 @@ public class TableDisplay {
 
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
+		// Switch on sort functionality (JTable built-in method)
+		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollpane = new JScrollPane(table);
+		
+		// Add listener to call ColumnInfo
+		// Double click the header to show
+		table.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int col = table.columnAtPoint(e.getPoint());
+
+				System.out.println("Selected column " + col);
+
+				if (e.getClickCount() == 2) {
+					System.out.printf("Double clicked column %d header!\n", col);
+					new ColumnInfo(table, frame, col);
+				}
+			}
+		});
 		
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.addMouseListener(new RowMover(table));

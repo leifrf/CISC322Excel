@@ -86,7 +86,7 @@ public class TableDisplay {
 
 	
 
-	private class DataTable extends AbstractTableModel {
+	public class DataTable extends AbstractTableModel {
 		
 		private final int rowCount;
 		private final int columnCount;

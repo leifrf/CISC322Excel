@@ -8,17 +8,19 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowSorter;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
+import javax.swing.table.TableRowSorter;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableColumn;
 
@@ -26,10 +28,12 @@ import javax.swing.table.TableColumn;
  * TableDisplay Class displays the JTable
  * Contains the main method for our project
  * 
- * @author Leif Raptis Firth
+ * @author Leif Raptis Firth, Ray Wen, Emma Wong
  *
  */
 public class TableDisplay {
+	
+	static boolean sorted = false; 
 
 	/**
 	 * Main method: displays the table
@@ -49,8 +53,16 @@ public class TableDisplay {
 
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
-		// Switch on sort functionality (JTable built-in method)
-		table.setAutoCreateRowSorter(true);
+		
+		String header[] = {"name", "age", "gender", "class", "nationality", "blank"};
+		  
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			TableColumn column = table.getTableHeader().getColumnModel().getColumn(i);	  
+			column.setHeaderValue(header[i]);
+		} 
+		
+//		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dataModel);
+//		table.setRowSorter(sorter);
 		JScrollPane scrollpane = new JScrollPane(table);
 		
 
@@ -62,6 +74,11 @@ public class TableDisplay {
 				int col = table.columnAtPoint(e.getPoint());
 				
 				System.out.println("Selected column " + col);
+				
+				if (e.getClickCount() == 1) {
+					System.out.printf("Single clicked column %d header!\n", col);
+					sorted = true;
+				}
 
 				if (e.getClickCount() == 2) {
 					System.out.printf("Double clicked column %d header!\n", col);
@@ -70,10 +87,11 @@ public class TableDisplay {
 			}
 		});
 		
-
+		// Switch on sort functionality (JTable built-in method)
+		table.setAutoCreateRowSorter(true);
+		
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         table.addMouseListener(new RowMover(table));
-
 		
 		Container content = frame.getContentPane();
 		content.add(scrollpane);
@@ -139,36 +157,38 @@ public class TableDisplay {
 		 * @return 	boolean	true if move was successful;
 		 * 					false otherwise
 		 */
-		public boolean moveOneRow(int src, int dest) {			
-			// make sure that src and dest rows are valid
-			if (src < 0 || dest < 0 || src >= rowCount || dest >= rowCount) {
-				return false;
-			}
-			
-			// case where we need to insert src first and shift down to
-			// destination
-			Object tmp_src[] = entries[src];
-			
-			if (src > dest) {
-				for (int row = src; row > dest; row--) { // at the place where want to put the src back in
-					entries[row] = entries[row - 1]; // move rows down
+		public boolean moveOneRow(int src, int dest) {	
+			if (!sorted) {
+				// make sure that src and dest rows are valid
+				if (src < 0 || dest < 0 || src >= rowCount || dest >= rowCount) {
+					return false;
 				}
-				
-				entries[dest] = tmp_src; // move source row to destination row
-				this.fireTableRowsUpdated(0, rowCount); // update table
-				return true;
-			}
-			
-			// case where we need to first remove src row and ripple up until
-			// we get to destination row where we can insert the src row
-			if (src < dest) {
-				for (int row = src; row < dest; row ++) {
-					entries[row] = entries [row + 1]; // move rows up
+
+				// case where we need to insert src first and shift down to
+				// destination
+				Object tmp_src[] = entries[src];
+
+				if (src > dest) {
+					for (int row = src; row > dest; row--) { // at the place where want to put the src back in
+						entries[row] = entries[row - 1]; // move rows down
+					}
+
+					entries[dest] = tmp_src; // move source row to destination row
+					this.fireTableRowsUpdated(0, rowCount-1); // update table
+					return true;
 				}
-				
-				entries[dest] = tmp_src; // move source row to destination row
-				this.fireTableRowsUpdated(0, rowCount); // update table
-				return true;
+
+				// case where we need to first remove src row and ripple up until
+				// we get to destination row where we can insert the src row
+				if (src < dest) {
+					for (int row = src; row < dest; row ++) {
+						entries[row] = entries [row + 1]; // move rows up
+					}
+
+					entries[dest] = tmp_src; // move source row to destination row
+					this.fireTableRowsUpdated(0, rowCount-1); // update table
+					return true;
+				}
 			}
 			
 			// src must be equal to dest, so phantom move

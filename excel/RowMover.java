@@ -41,6 +41,7 @@ public class RowMover extends MouseAdapter {
      */
     public RowMover(JTable table) {
     	this.table = table;
+    	System.out.println(table.getAutoCreateRowSorter());
     }
 
     /**
@@ -74,6 +75,7 @@ public class RowMover extends MouseAdapter {
     	Point point = e.getPoint();
       	JTable jtable = (JTable) e.getSource(); // the viewer - sees part of table model
       	DataTable model =  (DataTable) jtable.getModel(); // data is in the model
+
         int destRow = jtable.rowAtPoint(point);
 
         // move row from where the right mouse button was pressed to where it was released. Clear the highlighting.     

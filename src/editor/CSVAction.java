@@ -4,6 +4,7 @@ package editor;
 import java.awt.event.ActionEvent;
 // import javax.swing.Action;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 // import javax.swing.text.Keymap;
 // import javax.swing.text.DefaultEditorKit;
@@ -20,11 +21,11 @@ import ca.queensu.cs.dal.flex.log.Log;
  * Copyright 2010-2011 David Alex Lamb.
  * See the <a href="../doc-files/copyright.html">copyright notice</a> for details.
  */
-public abstract class TextAction extends DefaultAction {
+public abstract class CSVAction extends DefaultAction {
     /**
      * Constructs a text manipulation action
      */
-    private TextAction() {
+    private CSVAction() {
 	super("Text");
     } // end constructor TextAction
 
@@ -32,7 +33,7 @@ public abstract class TextAction extends DefaultAction {
      * Constructs a text manipulation action
      * @param name Name of the action.
      */
-    protected TextAction(String name) {
+    protected CSVAction(String name) {
 	super(name);
     } // end constructor TextAction
     
@@ -46,7 +47,7 @@ public abstract class TextAction extends DefaultAction {
      * @param start Index of the first character to change.
      * @param end Index one beyond the last character to change.
      */
-    protected abstract void changeText(TextContents con, int start, int end);
+    protected abstract void changeText(CSVContents con, int start, int end);
 
     /**
      * Perform the appropriate action (defined by {@link #changeText}) on the
@@ -56,13 +57,14 @@ public abstract class TextAction extends DefaultAction {
 	try {
 	    Application app = Application.getApplication();
 	    CommonWindow win = app.getActiveWindow();
-	    JTextArea area = (JTextArea) ((JScrollPane) win.getContentPane()).getViewport().getView();
+	    // JTextArea area = (JTextArea) ((JScrollPane) win.getContentPane()).getViewport().getView();
+	    JTable area = (JTable) ((JScrollPane) win.getContentPane()).getViewport().getView();
 	    // if (firstArea==null) setArea(area);
-	    TextDocument doc = (TextDocument) app.getActiveDocument();
-	    TextContents con = (TextContents) doc.getContents();
-	    int start = area.getSelectionStart();
-	    int end = area.getSelectionEnd();
-	    changeText(con,start,end);
+	    CSVDocument doc = (CSVDocument) app.getActiveDocument();
+	    CSVContents con = (CSVContents) doc.getContents();
+//	    int start = area.getSelectionStart(); 					// Commented out to avoid compile errors
+//	    int end = area.getSelectionEnd();
+//	    changeText(con,start,end);
 	} catch (Exception ex) {
 	    Log.error("Text action error: "+ex.getLocalizedMessage());
 	}

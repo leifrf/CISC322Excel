@@ -26,7 +26,7 @@ import ca.queensu.cs.dal.flex.i18n.Localizer;
  * See the <a href="../doc-files/copyright.html">copyright notice</a> for details.
  */
 
-public class TextEditor extends Application {
+public class CSVEditor extends Application {
 	private MenuDescriptor menu;
 	/* package */ MainPanel mainPanel;
 	private static String title = "Simple Text File Editor";
@@ -64,10 +64,10 @@ public class TextEditor extends Application {
 	/*
 	 * Constructs and initializes the editor.
 	 */
-	public TextEditor() {
+	public CSVEditor() {
 		super(title);
 		mainPanel = new MainPanel();
-		DocumentType fac = new TextType();
+		DocumentType fac = new CSVType();
 		DocumentManager manager = getDocumentManager();
 		//System.err.println("Got to return from getDocumentManager");
 		if (manager!=null) {
@@ -96,15 +96,15 @@ public class TextEditor extends Application {
 	 * waits for user interface events.
 	 */
 	public static void main(String args[]) {
-		new TextEditor();
+		new CSVEditor();
 	} // end main
 
 	/**
 	 * Returns the main application, so that other classes can access some
 	 *   global information.
 	 */
-	public static TextEditor getApplication() {
-		return (TextEditor) Application.getApplication();
+	public static CSVEditor getApplication() {
+		return (CSVEditor) Application.getApplication();
 	}
 
 } // end class TextEditor

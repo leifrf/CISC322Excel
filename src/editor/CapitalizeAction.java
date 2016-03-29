@@ -15,7 +15,7 @@ import ca.queensu.cs.dal.flex.log.Log;
  * Copyright 2010 David Alex Lamb.
  * See the <a href="../doc-files/copyright.html">copyright notice</a> for details.
  */
-public class CapitalizeAction extends TextAction {
+public class CapitalizeAction extends CSVAction {
     private static final String wordPatternText =
 	// "\\{L}+";
 	"\\w+";
@@ -36,7 +36,7 @@ public class CapitalizeAction extends TextAction {
      *  capitalized).
      * @param end Index one beyond the last character to change.
      */
-    protected void changeText(TextContents con, int start, int end) {
+    protected void changeText(CSVContents con, int start, int end) {
 	if (wordPattern==null)
 	    wordPattern = Pattern.compile(wordPatternText);
 	try {

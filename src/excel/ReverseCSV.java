@@ -14,14 +14,12 @@ import com.opencsv.CSVWriter;
 public class ReverseCSV {
 
 	private static final String TEST_IN_FILE_PATH = "resources/samples/test_in_file.csv";
-	private static final String TEST_OUT_FILE_PATH = "resources/samples/test_out_file.csv";	
-	
+	private static final String TEST_OUT_FILE_PATH = "resources/samples/test_out_file.csv";
 
 	// Need to adapt this to accept an input stream 
 	public static List<String[]> readCsv(String csvFile) throws IOException {
 		CSVReader reader = new CSVReader(new FileReader(csvFile));
 		List<String[]> allLines = reader.readAll();
-		
 		reader.close();
 		return allLines;
 	}
@@ -63,6 +61,14 @@ public class ReverseCSV {
 	
 	public static void reverseCsvFile(String sourceFile, String destinationFile) throws IOException {
 		List<String[]> lines = readCsv(sourceFile);
+		List<String[]> reversedLines = new ArrayList<String[]>();
+		for (String[] line : lines)
+			reversedLines.add(reverseLine(line));
+		writeCsv(reversedLines, destinationFile);
+	}
+	
+	public static void reverseCsvLines(InputStream input, String destinationFile) throws IOException {
+		List<String[]> lines = readCsv(input);
 		List<String[]> reversedLines = new ArrayList<String[]>();
 		for (String[] line : lines)
 			reversedLines.add(reverseLine(line));

@@ -15,7 +15,7 @@ import ca.queensu.cs.dal.flex.log.Log;
  * Copyright 2010 David Alex Lamb.
  * See the <a href="../doc-files/copyright.html">copyright notice</a> for details.
  */
-public class DeleteAction extends TextAction {
+public class DeleteAction extends CSVAction {
     /**
      * Constructs a text deletion action -- delete selected text.
      */
@@ -31,7 +31,7 @@ public class DeleteAction extends TextAction {
      * @param start Index of the first character to change.
      * @param end Index one beyond the last character to change.
      */
-    protected void changeText(TextContents con, int start, int end) {
+    protected void changeText(CSVContents con, int start, int end) {
 	try {
 	    if (end>start) {
 		// delete selection

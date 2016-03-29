@@ -15,7 +15,7 @@ import ca.queensu.cs.dal.flex.log.Log;
  * Copyright 2010 David Alex Lamb.
  * See the <a href="../doc-files/copyright.html">copyright notice</a> for details.
  */
-public class DownCaseAction extends TextAction {
+public class DownCaseAction extends CSVAction {
     /**
      * Constructs an uppercase action -- convert text to upper case.
      */
@@ -31,7 +31,7 @@ public class DownCaseAction extends TextAction {
      *  capitalized).
      * @param end Index one beyond the last character to change.
      */
-    protected void changeText(TextContents con, int start, int end) {
+    protected void changeText(CSVContents con, int start, int end) {
 	try {
 	    //System.err.println("Down "+start+":"+end);
 	    int len = end-start;

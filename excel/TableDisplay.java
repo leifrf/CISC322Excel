@@ -54,7 +54,7 @@ public class TableDisplay {
 		TableModel dataModel = dummyTable.new DataTable(csvData);
 		JTable table = new JTable(dataModel);
 		
-		String header[] = {"name", "age", "gender", "class", "nationality", "blank"};
+		String header[] = {"name", "age", "gender", "saving", "nationality", "blank"};
 		  
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			TableColumn column = table.getTableHeader().getColumnModel().getColumn(i);	  

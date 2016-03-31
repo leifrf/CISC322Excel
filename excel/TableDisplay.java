@@ -25,18 +25,24 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableColumn;
 
 /**
- * TableDisplay Class displays the JTable
- * Contains the main method for our project
+ * TableDisplay Class
+ * 		Displays the JTable.
+ * 		Contains the main method for our project. 
+ * 		<p>Expects: a CSV file to fill the table with
+ * 		<p>Output: a JTable
+ * 		<p>How to use: run the main method
+ * 		<p>Method: main
  * 
  * @author Leif Raptis Firth, Ray Wen, Emma Wong
- *
  */
 public class TableDisplay {
 	
 	static boolean sorted = false; 
 
 	/**
-	 * Main method: displays the table
+	 * Main method
+	 * Displays the table.
+	 * 
 	 * @param argv The csv file we want to show
 	 * @throws Exception If there is no csv file provided
 	 */
@@ -61,11 +67,8 @@ public class TableDisplay {
 			column.setHeaderValue(header[i]);
 		} 
 		
-//		RowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dataModel);
-//		table.setRowSorter(sorter);
 		JScrollPane scrollpane = new JScrollPane(table);
 		
-
 		// Add listener to call ColumnInfo
 		// Double click the header to show
 		table.getTableHeader().addMouseListener(new MouseAdapter() {
@@ -101,9 +104,23 @@ public class TableDisplay {
 		frame.setVisible(true);
 
 	} // main
-
 	
-
+	/**
+	 * DataTable
+	 * 		Object to hold our 2D array, which represents the table.
+	 * 		Has methods that fill, modify, and access the table.
+	 * 		<p>Expects: integers for rows and columns, data from the CSV
+	 * 		<p>Output: a 2D array which is the table and holds the CSV data
+	 * 		<p>How to use: provide a CSV file to put into a 2D array
+	 * 		<p>Methods:
+	 * 			</br> - convertData
+	 * 			</br> - moveOneRow
+	 * 			</br> - getColumnCount
+	 * 			</br> - getRowCount
+	 * 			</br> - getValueAt
+	 * 
+	 * @author Leif Raptis-Firth, Ray Wen, Emma Wong
+	 */
 	public class DataTable extends AbstractTableModel {
 		
 		private final int rowCount;
@@ -111,6 +128,13 @@ public class TableDisplay {
 		
 		private final Object[][] entries;
 		
+		/**
+		 * Constructor for object which creates the table
+		 * and adds a Table Model Listener.
+		 * 
+		 * @param rowCount		rows in the table
+		 * @param columnCount	columns in the table
+		 */
 		public DataTable(int rowCount, int columnCount) {
 			super();
 			this.entries = new Object[rowCount][columnCount];
@@ -119,6 +143,13 @@ public class TableDisplay {
 			super.addTableModelListener(new DataTableListener());			
 		}
 		
+		/**
+		 * Second constructor for the object which creates the
+		 * table with the appropriate number of rows and columns
+		 * for the table and fills the table.
+		 * 
+		 * @param csvData	the data to put in the table
+		 */
 		public DataTable(List<String[]> csvData) {
 			super();
 			this.entries = convertData(csvData);
@@ -127,6 +158,13 @@ public class TableDisplay {
 			super.addTableModelListener(new DataTableListener());			
 		}
 		
+		/**
+		 * convertData
+		 * Converts data from the CSV file and puts it into the table.
+		 * 
+		 * @param listData	the data
+		 * @return	arrayData the data stored in a 2D array
+		 */
 		public Object[][] convertData(List<String[]> listData) {
 			int maxRow = listData.size();
 			int maxColumn = 0;
@@ -195,16 +233,36 @@ public class TableDisplay {
 			return true;
 		}
 
+		/**
+		 * getColumnCount
+		 * Get the number of columns in the table.
+		 * @param none
+		 * @return the number of columns
+		 */
 		@Override
 		public int getColumnCount() {
 			return columnCount;
 		}
 
+		/**
+		 * getRowCount
+		 * Get the number of rows in the table.
+		 * @param none
+		 * @return the number of rows
+		 */
 		@Override
 		public int getRowCount() {
 			return rowCount;
 		}
 		
+		/**
+		 * getValueAt
+		 * Get the value of a particular cell.
+		 * 
+		 * @param rowIndex		the cell's row
+		 * @param columnIndex 	the cell's column
+		 * @return the value of the cell
+		 */
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			return entries[rowIndex][columnIndex];
@@ -218,6 +276,5 @@ public class TableDisplay {
 		public void tableChanged(TableModelEvent arg0) {
 			System.out.printf("Table change detected in DataTableListener\n");
 		}			
-	}
-
+	} // DataTableListener
 } // TableDisplay
